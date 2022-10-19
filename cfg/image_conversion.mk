@@ -62,9 +62,7 @@ PALETTE={ 26 0 5 1 2 3 4 6 8 9 11 13 15 18 21 24 }
 
 # $(eval $(call IMG2SPRITES,img/example.png,0,pre,24,12,$(PALETTE),mask,src/,hwpalette))
 
-
-$(eval $(call IMG2SPRITES,img/box.png,0,g,16,24,$(PALETTE),,src/sprites,hwpalette))
-
+$(eval $(call IMG2SPRITES,img/box_spritesheet.png,0,g,16,24,$(PALETTE),,src/sprites,hwpalette))
 
 ############################################################################
 ##              DETAILED INSTRUCTIONS AND PARAMETERS                      ##

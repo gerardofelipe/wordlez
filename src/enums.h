@@ -1,7 +1,7 @@
 #ifndef _ENUMS_H_
 #define _ENUMS_H_
 
-#include <sprites/box.h>
+#include <sprites/box_spritesheet.h>
 
 enum CONFIG {
     LETTERS_PER_WORD = 5,
@@ -42,8 +42,8 @@ enum PENS {
 };
 
 enum LETTER_DIMS {
-    LETTER_BOX_W = G_BOX_W,
-    LETTER_BOX_H = G_BOX_H,
+    LETTER_BOX_W = G_BOX_SPRITESHEET_0_W,
+    LETTER_BOX_H = G_BOX_SPRITESHEET_0_H,
 };
 
 enum LETTER_STATUS {

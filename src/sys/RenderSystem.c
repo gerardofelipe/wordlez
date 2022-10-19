@@ -4,7 +4,7 @@
 #include <man/BoardManager.h>
 #include <man/LetterManager.h>
 #include <man/WordManager.h>
-#include <sprites/box.h>
+#include <sprites/box_spritesheet.h>
 #include <sys/RenderSystem.h>
 #include <utils/cpc.h>
 
@@ -39,7 +39,7 @@ void sys_render_initialRenderLetter(struct TLetter *letter) __z88dk_fastcall {
     u8 *pvmem = getScreenPtr(posX, posY);
     char character = letter->character;
 
-    cpct_drawSprite(g_box, pvmem, G_BOX_W, G_BOX_H);
+    cpct_drawSprite(g_box_spritesheet_0, pvmem, G_BOX_SPRITESHEET_0_W, G_BOX_SPRITESHEET_0_H);
 
     cpct_setDrawCharM0(GRAY, WHITE);
     drawCharAt(character, posX + 2, posY + 8);
