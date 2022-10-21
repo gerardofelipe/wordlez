@@ -1,7 +1,7 @@
 #ifndef _ENUMS_H_
 #define _ENUMS_H_
 
-#include <sprites/box_spritesheet.h>
+#include <sprites/letter_box_sprites.h>
 
 enum CONFIG {
     LETTERS_PER_WORD = 5,
@@ -20,15 +20,15 @@ enum COLORS {
     MAUVE = 2,         // #8000FF
     BLUE = 3,          // #000080
     GREEN = 9,         // #008000
-    YELLOW = 15,       // #FFFF00
+    YELLOW = 14,       // #FFFF00
     GRAY = 11,         // #808080
     ORANGE = 12,       // #FF8000
     RED = 7,           // #FF0000
     BRIGHT_GREEN = 13, // #00FF00
 };
 
-enum PENS {
-    PEN_SPRITE_TO_REPLACE = 0xc0,
+enum PEN_2PIXEL_PATTERNS {
+    SPRITE_PAT_BASE = 0xc3,  // GREEN
     PEN_WHITE = 0x00,        // #FFFFFF
     PEN_MAUVE = 0x0c,        // #8000FF
     PEN_BLACK = 0xc0,        // #000000
@@ -42,8 +42,8 @@ enum PENS {
 };
 
 enum LETTER_DIMS {
-    LETTER_BOX_W = G_BOX_SPRITESHEET_0_W,
-    LETTER_BOX_H = G_BOX_SPRITESHEET_0_H,
+    LETTER_BOX_W = G_LETTER_BOX_SPRITES_00_W,
+    LETTER_BOX_H = G_LETTER_BOX_SPRITES_00_H,
 };
 
 enum LETTER_STATUS {
@@ -51,6 +51,12 @@ enum LETTER_STATUS {
     LETTER_NOT_IN_WORD,
     LETTER_IN_WORD_NOT_IN_POSITION,
     LETTER_OK,
+};
+
+enum REPLACE_PATERN_BY_LETTER_STATUS {
+    RPLC_PAT_LETTER_NOT_IN_WORD = 0xc3cf, // SPRITE_PAT_BASE << 8 | PEN_GRAY,
+    RPLC_PAT_LETTER_IN_WORD_NOT_IN_POSITION = 0xc333,//SPRITE_PAT_BASE << 8 | PEN_ORANGE,
+    RPLC_PAT_LETTER_OK = 0xc3c3,// SPRITE_PAT_BASE << 8 | PEN_GREEN,
 };
 
 enum LETTER_FKC {

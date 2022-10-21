@@ -5,7 +5,6 @@
 #include <enums.h>
 #include <man/LetterManager.h>
 #include <man/WordManager.h>
-#include <sprites/box_spritesheet.h>
 #include <stdbool.h>
 
 #define ALREADY_TESTED 0
@@ -43,7 +42,7 @@ struct TLetter *man_word_getLetters(struct TWord *self) __z88dk_fastcall {
 bool man_word_checkWord(struct TWord *self, char *secret) {
     struct TLetter *letters = self->letters;
     u8 wrongLettersCount = 0;
-    char bufferSecret[LETTERS_PER_WORD]; // store the characters of the secret to be checked in the second cycle
+    char bufferSecret[LETTERS_PER_WORD];             // store the characters of the secret to be checked in the second cycle
     struct TLetter *bufferLetters[LETTERS_PER_WORD]; // store the letters to be checked in the second cycle
 
     {

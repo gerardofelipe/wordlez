@@ -5,7 +5,7 @@
 #include <man/BoardManager.h>
 #include <man/LetterManager.h>
 #include <man/WordManager.h>
-#include <sprites/box_spritesheet.h>
+#include <sprites/letter_box_sprites.h>
 #include <stdbool.h>
 #include <sys/InputSystem.h>
 #include <sys/RenderSystem.h>

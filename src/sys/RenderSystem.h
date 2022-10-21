@@ -12,11 +12,13 @@ void sys_render_initialRenderWord(struct TWord *word) __z88dk_fastcall;
 
 void sys_render_initialRenderLetter(struct TLetter *letter) __z88dk_fastcall;
 
+void sys_render_initialRenderLetterByFrame(struct TLetter *letter, u8 frame);
+
 void sys_render_renderCurrentWord();
 
 void sys_render_updateLetterCharacter(struct TLetter *letter) __z88dk_fastcall;
 
-void sys_render_renderLetter(struct TLetter *letter) __z88dk_fastcall;
+void sys_render_renderLetter(struct TLetter *letter, u8 color, u16 rplcPat);
 
 void sys_render_renderWord(struct TWord *word) __z88dk_fastcall;
 

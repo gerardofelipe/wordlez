@@ -4,7 +4,7 @@
 #include <man/BoardManager.h>
 #include <man/LetterManager.h>
 #include <man/WordManager.h>
-#include <sprites/box_spritesheet.h>
+#include <sprites/letter_box_sprites.h>
 #include <sys/RenderSystem.h>
 #include <utils/cpc.h>
 
@@ -24,39 +24,64 @@ void sys_render_initialRender() {
 }
 
 void sys_render_initialRenderWord(struct TWord *word) __z88dk_fastcall {
-    u8 i = LETTERS_PER_WORD + 1;
-    struct TLetter *letter = word->letters + (LETTERS_PER_WORD - 1);
-
-    while (--i) {
-        sys_render_initialRenderLetter(letter);
-        --letter;
-    }
+    u8 frame = 6; // sizeof(g_tileset) / 2
+    do {
+        u8 i = LETTERS_PER_WORD + 1;
+        struct TLetter *letter = man_word_getLetter(word, (LETTERS_PER_WORD - 1));
+        --frame;
+        while (--i) {
+            sys_render_initialRenderLetterByFrame(letter, frame);
+            --letter;
+        }
+        cpct_waitVSYNC();
+    } while (frame);
 }
 
+// using animation frame
+void sys_render_initialRenderLetterByFrame(struct TLetter *letter, u8 frame) {
+    u8 posX = letter->x;
+    u8 posY = letter->y;
+    u8 *pvmem = getScreenPtr(posX, posY);
+    char character = man_letter_getCharacter(letter);
+    u8 *sprite = g_tileset[frame];
+    cpct_drawSprite(sprite, pvmem, LETTER_BOX_W, LETTER_BOX_H);
+}
+
+// whithout animation
 void sys_render_initialRenderLetter(struct TLetter *letter) __z88dk_fastcall {
     u8 posX = letter->x;
     u8 posY = letter->y;
     u8 *pvmem = getScreenPtr(posX, posY);
-    char character = letter->character;
-
-    cpct_drawSprite(g_box_spritesheet_0, pvmem, G_BOX_SPRITESHEET_0_W, G_BOX_SPRITESHEET_0_H);
-
-    cpct_setDrawCharM0(GRAY, WHITE);
-    drawCharAt(character, posX + 2, posY + 8);
+    char character = man_letter_getCharacter(letter);
+    u8 *sprite = g_tileset[0];
+    cpct_drawSprite(sprite, pvmem, LETTER_BOX_W, LETTER_BOX_H);
 }
 
 void sys_render_renderCurrentWord() {
     struct TBoard *board = man_board_getBoard();
-    cpct_waitVSYNC();
-    sys_render_renderWord(board->currentWord);
+    sys_render_renderWord(man_board_getCurrentWord(board));
 }
 
 void sys_render_renderWord(struct TWord *word) __z88dk_fastcall {
     u8 i = LETTERS_PER_WORD + 1;
-    struct TLetter *letter = word->letters;
-
+    struct TLetter *letter = man_word_getLetters(word);
     while (--i) {
-        sys_render_renderLetter(letter);
+        enum LETTER_STATUS status = man_letter_getStatus(letter);
+        u8 color;
+        u16 rplcPat;
+
+        if (status == LETTER_OK) {
+            color = GREEN;
+            rplcPat = RPLC_PAT_LETTER_OK;
+
+        } else if (status == LETTER_IN_WORD_NOT_IN_POSITION) {
+            color = ORANGE;
+            rplcPat = RPLC_PAT_LETTER_IN_WORD_NOT_IN_POSITION;
+        } else {
+            color = GRAY;
+            rplcPat = RPLC_PAT_LETTER_NOT_IN_WORD;
+        }
+        sys_render_renderLetter(letter, color, rplcPat);
         ++letter;
     }
 }
@@ -65,46 +90,41 @@ void sys_render_updateLetterCharacter(struct TLetter *letter) __z88dk_fastcall {
     u8 posX = letter->x;
     u8 posY = letter->y;
     u8 *pvmem = getScreenPtr(posX, posY);
-    char character = letter->character;
-    enum LETTER_STATUS status = letter->status;
-
-    switch (status) {
-    case LETTER_OK:
-        cpct_setDrawCharM0(WHITE, GREEN);
-        break;
-    case LETTER_IN_WORD_NOT_IN_POSITION:
-        cpct_setDrawCharM0(WHITE, ORANGE);
-        break;
-    case LETTER_NOT_IN_WORD:
-        cpct_setDrawCharM0(WHITE, GRAY);
-        break;
-    default:
-        cpct_setDrawCharM0(GRAY, WHITE);
-    }
+    char character = man_letter_getCharacter(letter);
+    cpct_setDrawCharM0(GRAY, WHITE);
     drawCharAt(character, posX + 2, posY + 8);
 }
 
-void sys_render_renderLetter(struct TLetter *letter) __z88dk_fastcall {
+// @TODO optimize this function
+void sys_render_renderLetter(struct TLetter *letter, u8 color, u16 rplcPat) {
     u8 posX = letter->x;
     u8 posY = letter->y;
     u8 *pvmem = getScreenPtr(posX, posY);
-    char character = letter->character;
-    enum LETTER_STATUS status = letter->status;
+    char character = man_letter_getCharacter(letter);
+    u8 *sprite;
+    u8 i;
 
-    switch (status) {
-    case LETTER_OK:
-        cpct_setDrawCharM0(WHITE, GREEN);
-        cpct_drawSolidBox(pvmem, PEN_GREEN, LETTER_BOX_W, LETTER_BOX_H);
-        break;
-    case LETTER_IN_WORD_NOT_IN_POSITION:
-        cpct_setDrawCharM0(WHITE, ORANGE);
-        cpct_drawSolidBox(pvmem, PEN_ORANGE, LETTER_BOX_W, LETTER_BOX_H);
-        break;
-    default: // case LETTER_NOT_IN_WORD:
-        cpct_setDrawCharM0(WHITE, GRAY);
-        cpct_drawSolidBox(pvmem, PEN_GRAY, LETTER_BOX_W, LETTER_BOX_H);
+    cpct_setDrawCharM0(WHITE, color);
+
+    cpct_waitVSYNC();
+
+    // sizeof(g_tileset) == 12
+    for (i = 0; i < 12; ++i) {
+        sprite = g_tileset[i];
+
+        // @TODO micro optimization: LETTER_OK status could be rendered without replace pattern
+        cpct_drawSpriteColorizeM0(sprite, pvmem, LETTER_BOX_W, LETTER_BOX_H, rplcPat);
+
+        // render the character 2 frames before end to make it look like it appears smoother
+        if (i > 9)
+            drawCharAt(character, posX + 2, posY + 8);
+
+        // no need to wait once the animation has finished
+        if (i < 11) {
+            cpct_waitVSYNCStart();
+            cpct_waitVSYNC();
+        }
     }
-    drawCharAt(character, posX + 2, posY + 8);
 }
 
 void sys_render_renderHeader() {
