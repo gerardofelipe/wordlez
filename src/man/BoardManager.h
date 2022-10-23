@@ -1,7 +1,9 @@
 #ifndef _CMP_BOARD_MANAGER_H_
 #define _CMP_BOARD_MANAGER_H_
 
-#include <cmp/Tboard.h>
+#include <cmp/TBoard.h>
+#include <cmp/TSecret.h>
+#include <cmp/TWord.h>
 #include <cpctelera.h>
 #include <enums.h>
 #include <stdbool.h>
@@ -34,8 +36,8 @@ bool man_board_moveToNextWord(struct TBoard *self) __z88dk_fastcall;
 
 bool man_board_isCurrentWordFilledIn(struct TBoard *self) __z88dk_fastcall;
 
-char *man_board_getSecret(struct TBoard *self) __z88dk_fastcall;
+struct TSecretWord *man_board_getSecretWord(struct TBoard *self) __z88dk_fastcall;
 
-char *_generateSecret();
+// char *_generateSecret();
 
 #endif

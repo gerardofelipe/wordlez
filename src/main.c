@@ -4,6 +4,7 @@
 #include <enums.h>
 #include <man/BoardManager.h>
 #include <man/LetterManager.h>
+#include <man/SecretManager.h>
 #include <man/WordManager.h>
 #include <sprites/letter_box_sprites.h>
 #include <stdbool.h>
@@ -49,6 +50,7 @@ void playSystem() {
 int main(void) {
     initialize();
 
+    man_secret_init();
     man_letter_init();
     man_word_init();
     man_board_init();

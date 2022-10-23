@@ -1,5 +1,6 @@
 #include <cmp/TBoard.h>
 #include <cmp/TLetter.h>
+#include <cmp/TSecret.h>
 #include <cmp/TWord.h>
 #include <cpctelera.h>
 #include <enums.h>
@@ -39,7 +40,7 @@ struct TLetter *man_word_getLetters(struct TWord *self) __z88dk_fastcall {
 }
 
 // @TODO optimize this function
-bool man_word_checkWord(struct TWord *self, char *secret) {
+bool man_word_checkWord(struct TWord *self, char *secretWord) {
     struct TLetter *letters = self->letters;
     u8 wrongLettersCount = 0;
     char bufferSecret[LETTERS_PER_WORD];             // store the characters of the secret to be checked in the second cycle
@@ -47,7 +48,7 @@ bool man_word_checkWord(struct TWord *self, char *secret) {
 
     {
         u8 c = LETTERS_PER_WORD + 1;
-        char *secretPtr = secret + 0;
+        char *secretPtr = secretWord;
         struct TLetter *letterPtr = letters + 0;
         while (--c) {
             char secretChar = *secretPtr;

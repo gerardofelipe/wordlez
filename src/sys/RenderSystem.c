@@ -1,3 +1,4 @@
+#include <cmp/TSecret.h>
 #include <cmp/TWord.h>
 #include <cpctelera.h>
 #include <enums.h>
@@ -139,7 +140,7 @@ void sys_render_renderWin() {
 
 void sys_render_renderLose() {
     struct TBoard *board = man_board_getBoard();
-    char *secret = man_board_getSecret(board);
+    char *secret = (char *)man_board_getSecretWord(board);
     cpct_setDrawCharM0(BLACK, WHITE);
     drawStringAt("Ohh,no acertaste :(", 0, 178);
     drawStringAt("Respuesta:", 0, 190);

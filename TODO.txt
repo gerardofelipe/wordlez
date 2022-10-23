@@ -1,0 +1,17 @@
+(A) use a source of entropy as cpct_rand seed (e.g."press any key to start" counting loop) @feature
+(A) Be able to continue with the next secret word @feature
+(A) Create a loader @chore
+(B) Create the win/lose view @feature
+(B) Add a logo and the instructions view to the loading @feature @images
+(B) Use the compression to load the secret words pool @chore @performance
+(C) Move the start memory address to lower position @chore @memory
+(C) Use CPCT Sprite buffer function to increase performance @feature @performance
+(C) Check the case where the user's word is not in the list ("does not exist") @feature
+(C) Create the header of the game screen @feature
+(D) Add custom font (Clear Sans or Helvetica Neue) @feature @images
+(D) Show statistics after word resolution @feature
+(D) Create a game status hash to be able to recover it after turn off the computer @feaure
+(D) Read the keyboard inside the interrupt handler to use the idle time for other tasks @feature @performance
+(D) Different language constructions @feature
+(E) Multilanguage via menu in the loader @feature
+(E) Publish it online using some JS emulator @feature

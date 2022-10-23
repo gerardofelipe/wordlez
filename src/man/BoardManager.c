@@ -2,6 +2,7 @@
 #include <cpctelera.h>
 #include <enums.h>
 #include <man/BoardManager.h>
+#include <man/SecretManager.h>
 #include <man/WordManager.h>
 #include <stdbool.h>
 
@@ -18,7 +19,7 @@ void man_board_initBoard(struct TBoard *self) __z88dk_fastcall {
     self->win = false;
     self->currentWord = self->words + 0;
     self->currentLetter = man_word_getLetter(self->currentWord, 0);
-    self->secret = _generateSecret();
+    self->secret = man_secret_getSecret();
     man_word_initWords(self);
 }
 
@@ -27,7 +28,8 @@ struct TBoard *man_board_getBoard() {
 }
 
 void man_board_checkWin(struct TBoard *self) __z88dk_fastcall {
-    bool win = man_word_checkWord(self->currentWord, self->secret);
+    struct TSecretWord *secretWord = man_secret_getSecretWord(self->secret);
+    bool win = man_word_checkWord(self->currentWord, (char *)secretWord);
     self->win = win;
 }
 
@@ -88,13 +90,6 @@ bool man_board_isCurrentWordFilledIn(struct TBoard *self) __z88dk_fastcall {
     return lastLetter == self->currentLetter && self->currentLetter->character != EMPTY_LETTER;
 }
 
-char *man_board_getSecret(struct TBoard *self) __z88dk_fastcall {
-    return self->secret;
-}
-
-char secret[LETTERS_PER_WORD];
-const char secrets[] = "BAMBU";
-char *_generateSecret() {
-    cpct_memcpy(secret, secrets, LETTERS_PER_WORD);
-    return secret;
+struct TSecretWord *man_board_getSecretWord(struct TBoard *self) __z88dk_fastcall {
+    return man_secret_getSecretWord(self->secret);
 }

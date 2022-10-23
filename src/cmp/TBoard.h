@@ -1,6 +1,7 @@
 #ifndef _CMP_TBOARD_H_
 #define _CMP_TBOARD_H_
 
+#include <cmp/TSecret.h>
 #include <cmp/TWord.h>
 #include <cpctelera.h>
 #include <enums.h>
@@ -13,7 +14,7 @@ typedef struct TBoard {
     bool win;
     struct TWord *currentWord;
     struct TLetter *currentLetter;
-    char *secret;
+    struct TSecret *secret;
     struct TWord words[NUM_OF_WORDS];
 };
 
