@@ -1,7 +1,7 @@
 #include <cpctelera.h>
 #include <man/BoardManager.h>
 #include <man/LetterManager.h>
-#include <man/WordManager.h>
+#include <stdbool.h>
 #include <sys/InputSystem.h>
 #include <sys/RenderSystem.h>
 #include <utils/cpc.h>
@@ -47,4 +47,10 @@ char sys_input_update() {
     // control long press
     waitNTimesVSYNCStart(waitMultiplier);
     return ch;
+}
+
+bool sys_input_askForContinue() {
+    pressAnyKey();
+
+    return cpct_isKeyPressed(Key_Esc) ? false : true;
 }

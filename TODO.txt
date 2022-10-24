@@ -1,5 +1,4 @@
 (A) use a source of entropy as cpct_rand seed (e.g."press any key to start" counting loop) @feature
-(A) Be able to continue with the next secret word @feature
 (A) Create a loader @chore
 (B) Create the win/lose view @feature
 (B) Add a logo and the instructions view to the loading @feature @images
@@ -15,3 +14,4 @@
 (D) Different language constructions @feature
 (E) Multilanguage via menu in the loader @feature
 (E) Publish it online using some JS emulator @feature
+x (A) Be able to continue with the next secret word @feature

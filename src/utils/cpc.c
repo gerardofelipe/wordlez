@@ -95,13 +95,13 @@ void waitNTimesVSYNCStart(u8 n) __z88dk_fastcall {
 void pressAnyKey() {
     do
         cpct_scanKeyboard();
-    while (!cpct_isAnyKeyPressed_f());
+    while (!cpct_isAnyKeyPressed());
 }
 
 void releaseAnyKey() {
     do
         cpct_scanKeyboard();
-    while (cpct_isAnyKeyPressed_f());
+    while (cpct_isAnyKeyPressed());
 }
 
 // @TODO Handle the case where several keys are pressed simultaneously.
@@ -129,4 +129,8 @@ char readUserInputChar() {
     u8 a = 0;
     u8 fkc = getFKCPressed();
     return LETTERS_BY_FKC[fkc];
+}
+
+u16 getRandom16Index(u16 arrSize) __z88dk_fastcall {
+    return cpct_rand16() % (arrSize);
 }

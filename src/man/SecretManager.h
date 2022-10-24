@@ -19,6 +19,6 @@ u16 man_secret_getNextPooIndex(struct TSecret *self) __z88dk_fastcall;
 
 void man_secret_moveToNextSecret(struct TSecret *self) __z88dk_fastcall;
 
-u16 _getRandomIndex(u16 arrSize) __z88dk_fastcall;
+u16 man_secret_getRandomPoolIndex();
 
 #endif

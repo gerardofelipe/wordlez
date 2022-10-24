@@ -19,4 +19,6 @@ u8 getFKCPressed();
 
 char readUserInputChar();
 
+u16 getRandom16Index(u16 arrSize) __z88dk_fastcall;
+
 #endif

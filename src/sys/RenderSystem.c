@@ -147,3 +147,14 @@ void sys_render_renderLose() {
     cpct_setDrawCharM0(GREEN, WHITE);
     drawStringAt(secret, 42, 190);
 }
+
+void sys_render_eraseFooter() {
+    u8 *pvmem = getScreenPtr(0, 180);
+    cpct_drawSolidBox  (pvmem, PEN_WHITE,40 ,8);
+    pvmem = getScreenPtr(40, 180);
+    cpct_drawSolidBox  (pvmem, PEN_WHITE,40 ,8);
+    pvmem = getScreenPtr(0, 190);
+    cpct_drawSolidBox  (pvmem, PEN_WHITE,40 ,8);
+    pvmem = getScreenPtr(40, 190);
+    cpct_drawSolidBox  (pvmem, PEN_WHITE,40 ,8);
+}

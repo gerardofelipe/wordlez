@@ -4,20 +4,15 @@
 #include <enums.h>
 #include <man/SecretManager.h>
 #include <stdbool.h>
+#include <utils/cpc.h>
 
 struct TSecret secret;
 
 void man_secret_init() {
-    u16 randomIndex = _getRandomIndex(SECRET_WORDS_COUNT);
-    man_secret_initSecret(&secret, randomIndex);
 }
 
 struct TSecret *man_secret_getSecret() {
     return &secret;
-}
-
-u16 _getRandomIndex(u16 arrSize) __z88dk_fastcall {
-    return cpct_rand16() % (arrSize + 1);
 }
 
 void man_secret_initSecret(struct TSecret *self, u16 index) {
@@ -41,4 +36,8 @@ u16 man_secret_getNextPooIndex(struct TSecret *self) __z88dk_fastcall {
 void man_secret_moveToNextSecret(struct TSecret *self) __z88dk_fastcall {
     u16 nextIndex = man_secret_getNextPooIndex(self);
     man_secret_initSecret(self, nextIndex);
+}
+
+u16 man_secret_getRandomPoolIndex() {
+    return getRandom16Index(SECRET_WORDS_COUNT);
 }

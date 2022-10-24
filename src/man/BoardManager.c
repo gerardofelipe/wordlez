@@ -1,7 +1,9 @@
 #include <cmp/TBoard.h>
+#include <cmp/TGame.h>
 #include <cpctelera.h>
 #include <enums.h>
 #include <man/BoardManager.h>
+#include <man/GameManager.h>
 #include <man/SecretManager.h>
 #include <man/WordManager.h>
 #include <stdbool.h>
@@ -9,10 +11,12 @@
 struct TBoard board;
 
 void man_board_init() {
-    man_board_initBoard(&board);
 }
 
-void man_board_initBoard(struct TBoard *self) __z88dk_fastcall {
+void man_board_initBoard(struct TGame *game) __z88dk_fastcall {
+    u16 poolIndex = man_game_getcurrentPoolIndex(game);
+    struct TBoard *self = game->board;
+    struct TSecret *secret;
     self->x = DEFAULT_BOARD_X;
     self->y = DEFAULT_BOARD_Y;
     self->triesLeft = MAX_TRIES;
@@ -20,6 +24,7 @@ void man_board_initBoard(struct TBoard *self) __z88dk_fastcall {
     self->currentWord = self->words + 0;
     self->currentLetter = man_word_getLetter(self->currentWord, 0);
     self->secret = man_secret_getSecret();
+    man_secret_initSecret(self->secret, poolIndex);
     man_word_initWords(self);
 }
 
@@ -85,9 +90,7 @@ bool man_board_moveToNextWord(struct TBoard *self) __z88dk_fastcall {
 }
 
 bool man_board_isCurrentWordFilledIn(struct TBoard *self) __z88dk_fastcall {
-    struct TWord *word = self->currentWord;
-    struct TLetter *lastLetter = man_word_getLetter(word, LETTERS_PER_WORD - 1);
-    return lastLetter == self->currentLetter && self->currentLetter->character != EMPTY_LETTER;
+    return man_word_isFilledIn(self->currentWord);
 }
 
 struct TSecretWord *man_board_getSecretWord(struct TBoard *self) __z88dk_fastcall {

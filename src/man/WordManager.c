@@ -39,6 +39,11 @@ struct TLetter *man_word_getLetters(struct TWord *self) __z88dk_fastcall {
     return self->letters;
 }
 
+bool man_word_isFilledIn(struct TWord *self) __z88dk_fastcall {
+    struct TLetter *lastLetter = man_word_getLetter(self, LETTERS_PER_WORD - 1);
+    return !man_letter_isLetterEmpty(lastLetter);
+}
+
 // @TODO optimize this function
 bool man_word_checkWord(struct TWord *self, char *secretWord) {
     struct TLetter *letters = self->letters;

@@ -16,6 +16,8 @@ struct TLetter *man_word_getLetter(struct TWord *self, u8 letterIndex);
 
 struct TLetter *man_word_getLetters(struct TWord *self) __z88dk_fastcall;
 
+bool man_word_isFilledIn(struct TWord *self) __z88dk_fastcall;
+
 bool man_word_checkWord(struct TWord *self, char *secretWord);
 
 #endif

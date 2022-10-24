@@ -28,4 +28,6 @@ void sys_render_renderWin();
 
 void sys_render_renderLose();
 
+void sys_render_eraseFooter();
+
 #endif
