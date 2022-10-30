@@ -92,8 +92,8 @@ void sys_render_updateLetterCharacter(struct TLetter *letter) __z88dk_fastcall {
     u8 posY = letter->y;
     u8 *pvmem = getScreenPtr(posX, posY);
     char character = man_letter_getCharacter(letter);
-    cpct_setDrawCharM0(GRAY, WHITE);
-    drawCharAt(character, posX + 2, posY + 8);
+    cpct_setDrawCharM1(GRAY, WHITE);
+    drawCharAt(character, posX + 1, posY + 4);
 }
 
 // @TODO optimize this function
@@ -105,7 +105,7 @@ void sys_render_renderLetter(struct TLetter *letter, u8 color, u16 rplcPat) {
     u8 *sprite;
     u8 i;
 
-    cpct_setDrawCharM0(WHITE, color);
+    cpct_setDrawCharM1(WHITE, color);
 
     cpct_waitVSYNC();
 
@@ -114,11 +114,11 @@ void sys_render_renderLetter(struct TLetter *letter, u8 color, u16 rplcPat) {
         sprite = g_tileset[i];
 
         // @TODO micro optimization: LETTER_OK status could be rendered without replace pattern
-        cpct_drawSpriteColorizeM0(sprite, pvmem, LETTER_BOX_W, LETTER_BOX_H, rplcPat);
+        cpct_drawSpriteColorizeM1(sprite, pvmem, LETTER_BOX_W, LETTER_BOX_H, rplcPat);
 
         // render the character 2 frames before end to make it look like it appears smoother
         if (i > 9)
-            drawCharAt(character, posX + 2, posY + 8);
+            drawCharAt(character, posX + 1, posY + 4);
 
         // no need to wait once the animation has finished
         if (i < 11) {
@@ -129,37 +129,37 @@ void sys_render_renderLetter(struct TLetter *letter, u8 color, u16 rplcPat) {
 }
 
 void sys_render_renderHeader() {
-    cpct_setDrawCharM0(BLUE, WHITE);
+    cpct_setDrawCharM1(GRAY, WHITE);
     drawStringAt("WORDLEZ", 26, 0);
 }
 
 void sys_render_renderWin() {
-    cpct_setDrawCharM0(BLACK, WHITE);
+    cpct_setDrawCharM1(GRAY, WHITE);
     drawStringAt("!Has acertado!", 0, 180);
 }
 
 void sys_render_renderLose() {
     struct TBoard *board = man_board_getBoard();
     char *secret = (char *)man_board_getSecretWord(board);
-    cpct_setDrawCharM0(BLACK, WHITE);
+    cpct_setDrawCharM1(GRAY, WHITE);
     drawStringAt("Ohh,no acertaste :(", 0, 178);
     drawStringAt("Respuesta:", 0, 190);
-    cpct_setDrawCharM0(GREEN, WHITE);
+    cpct_setDrawCharM1(GREEN, WHITE);
     drawStringAt(secret, 42, 190);
 }
 
 void sys_render_eraseFooter() {
     u8 *pvmem = getScreenPtr(0, 180);
-    cpct_drawSolidBox  (pvmem, PEN_WHITE,40 ,8);
+    cpct_drawSolidBox  (pvmem, PEN_2PIXEL_PAT_WHITE,40 ,8);
     pvmem = getScreenPtr(40, 180);
-    cpct_drawSolidBox  (pvmem, PEN_WHITE,40 ,8);
+    cpct_drawSolidBox  (pvmem, PEN_2PIXEL_PAT_WHITE,40 ,8);
     pvmem = getScreenPtr(0, 190);
-    cpct_drawSolidBox  (pvmem, PEN_WHITE,40 ,8);
+    cpct_drawSolidBox  (pvmem, PEN_2PIXEL_PAT_WHITE,40 ,8);
     pvmem = getScreenPtr(40, 190);
-    cpct_drawSolidBox  (pvmem, PEN_WHITE,40 ,8);
+    cpct_drawSolidBox  (pvmem, PEN_2PIXEL_PAT_WHITE,40 ,8);
 }
 
 void sys_render_pressAnyKeyToContinue() {
-    cpct_setDrawCharM0(BLACK, WHITE);
+    cpct_setDrawCharM1(GRAY, WHITE);
     drawStringAt("Pulsa una tecla...", 0, 180);
 }

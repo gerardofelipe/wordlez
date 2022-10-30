@@ -14,7 +14,7 @@
 
 void initialize() {
     cpct_disableFirmware();
-    cpct_setVideoMode(0);
+    cpct_setVideoMode(1);
     cpct_setPalette(g_palette, 16);
     cpct_setBorder(HW_BRIGHT_WHITE);
 }

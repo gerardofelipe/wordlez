@@ -46,10 +46,13 @@
 ##
 
 ## Example firmware palette definition as variable in cpct_img2tileset format
-
 # PALETTE={0 1 3 4 7 9 10 12 13 16 19 20 21 24 25 26}
 
-PALETTE={ 26 0 5 1 2 3 4 6 8 9 11 13 15 18 21 24 }
+## M0
+# PALETTE={ 26 0 5 1 2 3 4 6 8 9 11 13 15 18 21 24 }
+
+## M1
+PALETTE={26 13 9 15}
 
 ## AUTOMATED IMAGE CONVERSION EXAMPLE (Uncomment EVAL line to use)
 ##
@@ -62,7 +65,8 @@ PALETTE={ 26 0 5 1 2 3 4 6 8 9 11 13 15 18 21 24 }
 
 # $(eval $(call IMG2SPRITES,img/example.png,0,pre,24,12,$(PALETTE),mask,src/,hwpalette))
 
-$(eval $(call IMG2SPRITES,img/letter_box_sprites.png,0,g,16,24,$(PALETTE),tileset,src/sprites,hwpalette))
+# $(eval $(call IMG2SPRITES,img/letter_box_sprites.png,0,g,16,24,$(PALETTE),tileset,src/sprites,hwpalette))
+$(eval $(call IMG2SPRITES,img/letter_box_sprites.png,1,g,16,16,$(PALETTE),tileset,src/sprites,hwpalette))
 
 ############################################################################
 ##              DETAILED INSTRUCTIONS AND PARAMETERS                      ##
