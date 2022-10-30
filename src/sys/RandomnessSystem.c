@@ -10,22 +10,29 @@
 #include <sys/PlaySystem.h>
 #include <sys/RenderSystem.h>
 #include <utils/cpc.h>
+#include <utils/prng.h>
+#include <stdlib.h>
 
-u32 entropyCount;
+u32 entropySeed;
 
 void interruptHandler() {
-    ++entropyCount;
+    // As a guideline, going straight to play, in a normal way (not extremely fast), is about 350 interrupts.
+    // Using a nice prime number like this (actually, it doesn't need to be prime), we flip the 32bits approximately
+    // every 178 interrupts, trying to get a more diverse seed.
+    entropySeed += 367;
 }
 
 void sys_randomness_init() {
-    entropyCount = 0;
+    entropySeed = 0;
     cpct_setInterruptHandler(interruptHandler);
 }
 
 void sys_randomness_initRandomnessRelatedFunctions() {
-    struct TGame *game = man_game_getGame();
+    u16 initialX;
+    struct TGame *game;
     cpct_removeInterruptHandler();
-    cpct_setSeed_mxor(entropyCount); // seed the cpct random generator
-
-    man_game_applyEntropySeed(game);
+    srand(entropySeed);
+    initialX = prngInit();
+    game = man_game_getGame();
+    man_game_applyEntropySeed(game, initialX);
 }

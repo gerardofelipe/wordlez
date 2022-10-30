@@ -23,9 +23,9 @@ void man_game_initGame(struct TGame *self) __z88dk_fastcall {
     man_board_initBoard(self);
 }
 
-void man_game_applyEntropySeed(struct TGame *self) __z88dk_fastcall {
+void man_game_applyEntropySeed(struct TGame *self, u16 initialPoolIndex) {
     struct TSecret *secret;
-    u16 initialPoolIndex = man_secret_getRandomPoolIndex();
+    self->initialPoolIndex = initialPoolIndex;
     self->currentPoolIndex = initialPoolIndex;
     secret = man_secret_getSecret();
     man_secret_initSecret(secret, initialPoolIndex);

@@ -5,6 +5,7 @@
 #include <man/SecretManager.h>
 #include <stdbool.h>
 #include <utils/cpc.h>
+#include <utils/prng.h>
 
 struct TSecret secret;
 
@@ -28,16 +29,12 @@ struct TSecretWord *man_secret_getSecretWord(struct TSecret *self) __z88dk_fastc
     return (struct TSecretWord *)(self->word);
 }
 
-u16 man_secret_getNextPooIndex() {
-    u16 nextIndex = man_secret_getRandomPoolIndex();
+u16 man_secret_getNextPooIndex(struct TSecret *self) __z88dk_fastcall {
+    u16 nextIndex = prng(self->index);
     return nextIndex >= SECRET_WORDS_COUNT ? SECRET_WORDS_COUNT - nextIndex : nextIndex;
 }
 
 void man_secret_moveToNextSecret(struct TSecret *self) __z88dk_fastcall {
-    u16 nextIndex = man_secret_getNextPooIndex();
+    u16 nextIndex = man_secret_getNextPooIndex(self);
     man_secret_initSecret(self, nextIndex);
-}
-
-u16 man_secret_getRandomPoolIndex() {
-    return getRandom16Index(SECRET_WORDS_COUNT);
 }

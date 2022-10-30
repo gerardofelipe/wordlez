@@ -1,8 +1,9 @@
-(A) use a source of entropy as cpct_rand seed (e.g."press any key to start" counting loop) @feature
+(A) Migrate to video mode 1 for better resolution @refactor
 (A) Create a loader @chore
-(B) Create the win/lose view @feature
 (B) Add a logo and the instructions view to the loading @feature @images
+(B) Create the win/lose view @feature
 (B) Use the compression to load the secret words pool @chore @performance
+(B) Improve the randomness @refactor
 (C) Move the start memory address to lower position @chore @memory
 (C) Use CPCT Sprite buffer function to increase performance @feature @performance
 (C) Check the case where the user's word is not in the list ("does not exist") @feature
@@ -15,3 +16,4 @@
 (E) Multilanguage via menu in the loader @feature
 (E) Publish it online using some JS emulator @feature
 x (A) Be able to continue with the next secret word @feature
+x (A) use a source of entropy as cpct_rand seed (e.g."press any key to start" counting loop) @feature

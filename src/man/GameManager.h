@@ -12,7 +12,7 @@ struct TGame *man_game_getGame();
 
 void man_game_initGame(struct TGame *self) __z88dk_fastcall;
 
-void man_game_applyEntropySeed(struct TGame *self) __z88dk_fastcall;
+void man_game_applyEntropySeed(struct TGame *self, u16 initialPoolIndex);
 
 u16 man_game_getcurrentPoolIndex(struct TGame *self) __z88dk_fastcall;
 
