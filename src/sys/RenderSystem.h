@@ -30,4 +30,6 @@ void sys_render_renderLose();
 
 void sys_render_eraseFooter();
 
+void sys_render_pressAnyKeyToContinue();
+
 #endif

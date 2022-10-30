@@ -28,13 +28,13 @@ struct TSecretWord *man_secret_getSecretWord(struct TSecret *self) __z88dk_fastc
     return (struct TSecretWord *)(self->word);
 }
 
-u16 man_secret_getNextPooIndex(struct TSecret *self) __z88dk_fastcall {
-    u16 nextIndex = self->index + 1;
-    return nextIndex == SECRET_WORDS_COUNT ? 0 : nextIndex;
+u16 man_secret_getNextPooIndex() {
+    u16 nextIndex = man_secret_getRandomPoolIndex();
+    return nextIndex >= SECRET_WORDS_COUNT ? SECRET_WORDS_COUNT - nextIndex : nextIndex;
 }
 
 void man_secret_moveToNextSecret(struct TSecret *self) __z88dk_fastcall {
-    u16 nextIndex = man_secret_getNextPooIndex(self);
+    u16 nextIndex = man_secret_getNextPooIndex();
     man_secret_initSecret(self, nextIndex);
 }
 

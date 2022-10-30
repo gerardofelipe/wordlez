@@ -8,7 +8,9 @@
 #include <sprites/letter_box_sprites.h>
 #include <sys/InputSystem.h>
 #include <sys/PlaySystem.h>
+#include <sys/RandomnessSystem.h>
 #include <sys/RenderSystem.h>
+#include <utils/cpc.h>
 
 void initialize() {
     cpct_disableFirmware();
@@ -17,7 +19,7 @@ void initialize() {
     cpct_setBorder(HW_BRIGHT_WHITE);
 }
 
-int main(void) {
+void main(void) {
     initialize();
 
     man_secret_init();
@@ -26,15 +28,19 @@ int main(void) {
     man_board_init();
     man_game_init();
     sys_input_init();
+    sys_randomness_init();
     sys_render_init();
     sys_play_init();
+
+    sys_render_pressAnyKeyToContinue();
+    pressAnyKey();
+    sys_randomness_initRandomnessRelatedFunctions();
+    sys_render_eraseFooter();
 
     sys_render_renderHeader();
 
     // initial render
     sys_render_initialRender();
-
-    sys_render_eraseFooter();
 
     // start playing
     sys_play_initPlay();

@@ -15,7 +15,7 @@ u16 man_secret_getIndex(struct TSecret *self) __z88dk_fastcall;
 
 struct TSecretWord *man_secret_getSecretWord(struct TSecret *self) __z88dk_fastcall;
 
-u16 man_secret_getNextPooIndex(struct TSecret *self) __z88dk_fastcall;
+u16 man_secret_getNextPooIndex();
 
 void man_secret_moveToNextSecret(struct TSecret *self) __z88dk_fastcall;
 

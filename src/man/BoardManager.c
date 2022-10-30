@@ -14,7 +14,6 @@ void man_board_init() {
 }
 
 void man_board_initBoard(struct TGame *game) __z88dk_fastcall {
-    u16 poolIndex = man_game_getcurrentPoolIndex(game);
     struct TBoard *self = game->board;
     struct TSecret *secret;
     self->x = DEFAULT_BOARD_X;
@@ -24,7 +23,6 @@ void man_board_initBoard(struct TGame *game) __z88dk_fastcall {
     self->currentWord = self->words + 0;
     self->currentLetter = man_word_getLetter(self->currentWord, 0);
     self->secret = man_secret_getSecret();
-    man_secret_initSecret(self->secret, poolIndex);
     man_word_initWords(self);
 }
 

@@ -158,3 +158,8 @@ void sys_render_eraseFooter() {
     pvmem = getScreenPtr(40, 190);
     cpct_drawSolidBox  (pvmem, PEN_WHITE,40 ,8);
 }
+
+void sys_render_pressAnyKeyToContinue() {
+    cpct_setDrawCharM0(BLACK, WHITE);
+    drawStringAt("Pulsa una tecla...", 0, 180);
+}

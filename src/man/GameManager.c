@@ -17,11 +17,18 @@ struct TGame *man_game_getGame() {
 }
 
 void man_game_initGame(struct TGame *self) __z88dk_fastcall {
-    u16 initialPoolIndex = man_secret_getRandomPoolIndex();
-    self->initialPoolIndex = initialPoolIndex;
-    self->currentPoolIndex = initialPoolIndex;
+    self->initialPoolIndex = 0; // will be set later based on the entropy seed
+    self->currentPoolIndex = 0;
     self->board = man_board_getBoard();
     man_board_initBoard(self);
+}
+
+void man_game_applyEntropySeed(struct TGame *self) __z88dk_fastcall {
+    struct TSecret *secret;
+    u16 initialPoolIndex = man_secret_getRandomPoolIndex();
+    self->currentPoolIndex = initialPoolIndex;
+    secret = man_secret_getSecret();
+    man_secret_initSecret(secret, initialPoolIndex);
 }
 
 u16 man_game_getcurrentPoolIndex(struct TGame *self) __z88dk_fastcall {
@@ -35,6 +42,7 @@ struct TBoard *man_game_getBoard(struct TGame *self) __z88dk_fastcall {
 void man_game_moveToNextBoard(struct TGame *self) __z88dk_fastcall {
     struct TBoard *board = man_game_getBoard(self);
     struct TSecret *secret = board->secret;
-    self->currentPoolIndex = man_secret_getNextPooIndex(secret);
+    man_secret_moveToNextSecret(secret);
+    self->currentPoolIndex = secret->index;
     man_board_initBoard(self);
 }
